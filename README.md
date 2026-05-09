@@ -1,145 +1,52 @@
-# Smart Posture Final
+# Smart Posture and Ergonomic Coaching System
 
-## Project Overview
+The Smart Posture and Ergonomic Coaching System is an IoT-based real-time posture monitoring solution designed to help users improve their sitting habits during long study or work sessions. The system uses sensors attached to a chair to collect posture-related data, process it through a backend server, store it in MongoDB, and display meaningful insights through an interactive dashboard.
 
-Smart Posture Final is a posture-monitoring system that combines an ESP32 firmware, a backend API, and a web application with machine learning analysis. The system collects sensor data from wearable devices, evaluates posture quality, alerts users to poor posture, and provides insights through a dashboard.
+The system uses an ESP32 microcontroller with FSR402 pressure sensors, an ADXL345 accelerometer, and an ultrasonic distance sensor. The pressure sensors measure seat pressure distribution, the accelerometer detects chair/backrest tilt, and the ultrasonic sensor measures the approximate distance between the user and the screen. These readings are transmitted using MQTT and processed by a Node.js backend.
 
-## Repository Structure
+The backend validates incoming sensor data, calculates derived features such as seat balance, total force, total pressure, posture score, posture status, and bad posture type. The processed data is stored in MongoDB Atlas for real-time monitoring and historical analysis.
 
-- `iot-system/`
-  - `backend/`: Node.js backend service
-    - `src/app.js`
-    - `src/server.js`
-    - `src/config/`: configuration for database and MQTT
-    - `src/controllers/readingController.js`
-    - `src/models/AlertLog.js`
-    - `src/models/SensorReading.js`
-    - `src/models/Session.js`
-    - `src/routes/readingRoutes.js`
-    - `src/services/`: posture analysis and session management
-    - `src/utils/time.js`
-  - `esp32-firmware/`: firmware for the ESP32 device
-    - `platformio.ini`
-    - `src/main.cpp`
-- `web-app/`
-  - `app.py`: Flask web application
-  - `requirements.txt`
-  - `static/`: CSS and JavaScript assets
-  - `templates/`: HTML views and partials
-  - `data/`: sample CSV data files for analysis
-  - `ml/`: machine learning analysis modules
+A Flask-based dashboard presents live posture status, posture score, alerts, posture trends, heatmaps, correlation analysis, anomaly detection, and behaviour patterns. The system also includes a PostureAI chatbot that provides simple posture-related explanations and ergonomic recommendations.
 
-## Key Features
+## Main Features
 
-- Real-time posture tracking via ESP32
-- Backend logging of sensor readings and posture alerts
-- Web dashboard and chatbot UI for user interaction
-- ML analysis for anomaly detection, behavior insights, and temporal patterns
-- Data-driven insights and posture improvement guidance
+- Real-time posture monitoring using IoT sensors
+- Chair-integrated sensing without cameras or wearable devices
+- ESP32-based sensor data collection
+- MQTT-based lightweight IoT communication
+- MongoDB Atlas storage for sensor readings
+- Live dashboard with posture score and posture status
+- Bad posture type detection such as forward slouching, backward slouching, left leaning, and right leaning
+- Temporal trend analysis for daily, hourly, and session-based posture patterns
+- Correlation analysis to identify important posture-related features
+- Isolation Forest anomaly detection for unusual sensor patterns
+- Behaviour analysis to identify repeated ergonomic risks
+- PostureAI chatbot for user guidance and recommendations
 
-## Backend Details
+## System Flow
 
-### `iot-system/backend`
-- `src/app.js`: application setup and middleware configuration
-- `src/server.js`: server startup and route registration
-- `src/config/db.js`: database connection configuration
-- `src/config/mqtt.js`: MQTT broker connection setup
-- `src/controllers/readingController.js`: API endpoints for sensor readings
-- `src/models/`: Mongoose schema models
-  - `AlertLog.js`: stores posture alert events
-  - `SensorReading.js`: stores raw posture sensor data
-  - `Session.js`: stores session data and metadata
-- `src/services/postureService.js`: posture score calculation and alert logic
-- `src/services/sessionService.js`: session lifecycle logic
-- `src/utils/time.js`: shared time utilities
+1. Sensors collect posture-related data from the chair.
+2. ESP32 reads sensor values and creates a JSON payload.
+3. Sensor data is sent to the backend using MQTT over Wi-Fi.
+4. The Node.js backend validates and processes the data.
+5. Processed readings are stored in MongoDB Atlas.
+6. The Flask dashboard displays real-time and historical insights.
+7. ML and statistical analysis modules generate posture trends, anomalies, and recommendations.
+8. The PostureAI chatbot helps users understand their posture results.
 
-## Firmware Details
+## Technologies Used
 
-### `iot-system/esp32-firmware`
-- `platformio.ini`: PlatformIO configuration for ESP32 board
-- `src/main.cpp`: main firmware code for collecting sensor data, sending to backend, and managing posture alerts
-
-## Web Application
-
-### `web-app/app.py`
-- Flask-based application serving the frontend
-- Integrates charts, dashboards, ML insights, chatbot, and user authentication views
-
-### Frontend files
-- `static/css/app.css`: website styling
-- `static/js/dashboard.js`: dashboard interactions and visualizations
-- `static/js/chat-page.js`: chatbot page behavior
-- `static/js/floating-chat.js`: floating chat UI
-- `static/js/insights.js`: insights page logic
-- `static/js/ml-analysis.js`: ML analysis visualization
-
-### Templates
-- `templates/landing.html`: landing page
-- `templates/login.html` / `signup.html`: authentication pages
-- `templates/dashboard.html`: dashboard view
-- `templates/insights.html`: posture insights
-- `templates/ml_analysis.html`: machine learning results page
-- `templates/settings.html`: settings page
-- `templates/exercises.html`: exercise recommendations
-- `templates/chatbot.html`: chat interface
-- `templates/partials/floating_chat.html`: reusable chat partial
-
-## Machine Learning Modules
-
-### `web-app/ml/`
-- `anomaly_detection.py`: identify unusual posture or activity patterns
-- `behavior_analysis.py`: analyze posture behavior over time
-- `correlation_analysis.py`: find relationships between sensor signals
-- `data_loader.py`: load and prepare posture data
-- `temporal_analysis.py`: analyze temporal trends
-
-## Data Files
-
-- `web-app/data/posture_data.csv`
-- `web-app/data/smart_posture_db.sensorreadings.csv`
-
-> Note: Data files are included for analysis and should be handled carefully if they contain sensitive or personal information.
-
-## Setup and Usage
-
-### Backend
-1. Navigate to `iot-system/backend`
-2. Install dependencies: `npm install`
-3. Create a `.env` file with any required environment variables (do not commit it)
-4. Start the server: `npm start` or `node src/server.js`
-
-### Firmware
-1. Open `iot-system/esp32-firmware` in PlatformIO
-2. Configure board and upload firmware from `src/main.cpp`
-
-### Web App
-1. Navigate to `web-app`
-2. Install Python dependencies: `pip install -r requirements.txt`
-3. Run the web app: `python app.py`
-
-## Git Best Practices
-
-- Keep secrets out of source control by adding them to `.gitignore`
-- Use `git rm --cached <file>` for files already tracked that should be ignored
-- Commit a clean repository with documentation before pushing to GitHub
-
-## Removing Sensitive Files from Git Tracking
-If a file like `.env` has already been added to Git accidentally, run:
-
-```bash
-cd d:\smart-posture-final
-git rm --cached iot-system/backend/.env
-git commit -m "Remove .env from repository and add .gitignore"
-```
-
-Then push after authenticating:
-
-```bash
-git push -u origin master
-```
-
-## Future Improvements
-- Add secure authentication and user management
-- Expand posture alert personalization
-- Improve ML model accuracy with more training data
-- Add deployment scripts for production hosting
+- ESP32
+- FSR402 Pressure Sensors
+- ADXL345 Accelerometer
+- HC-SR05 Ultrasonic Sensor
+- MQTT
+- Node.js
+- Express.js
+- MongoDB Atlas
+- Flask
+- Python
+- Pandas
+- Scikit-learn
+- Chart.js
+- Ollama / Qwen2.5:3b
