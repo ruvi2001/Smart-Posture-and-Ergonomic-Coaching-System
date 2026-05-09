@@ -45,6 +45,7 @@ build/
 
 # Ignore local environment files
 *.env
+*.env.example
 
 # Ignore temporary files
 *.tmp
