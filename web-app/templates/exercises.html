@@ -1,0 +1,72 @@
+{% extends "app_base.html" %}
+{% block title %}Exercises | Smart Posture{% endblock %}
+
+{% block content %}
+<div class="actions-head">
+  <div>
+    <h1>Recommended Exercises</h1>
+    <p>Personalized daily routines designed to strengthen your core and correct spinal alignment.</p>
+  </div>
+
+  <div>
+    <button class="btn ghost">Filter</button>
+    <button class="btn primary">Start Session</button>
+  </div>
+</div>
+
+<section class="exercise-grid">
+  {% for ex in exercises %}
+  <article class="exercise-card">
+    <div class="exercise-img">
+      {% if ex.status == "Completed" %}
+        <span class="badge done">Completed</span>
+      {% elif ex.name == "Neck Stretches" %}
+        <span class="badge impact">High Impact</span>
+      {% endif %}
+
+      <span>{{ ex.image }}</span>
+    </div>
+
+    <div class="exercise-body">
+      <h3>{{ ex.name }}</h3>
+      <p>{{ ex.desc }}</p>
+      <small>{{ ex.meta }}</small>
+    </div>
+
+    <a
+      class="btn primary exercise-action"
+      href="{{ ex.video_url }}"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {{ "Watch Guide" if ex.status == "Completed" else ex.status }}
+    </a>
+  </article>
+  {% endfor %}
+</section>
+
+<div class="exercise-bottom">
+  <article class="tip-card">
+    <h3>💡 Pro Tip: Ergonomic Setup</h3>
+    <p>
+      Studies show doing these exercises for just 5 minutes every 2 hours can help reduce neck and back strain.
+      Keep your screen near eye level.
+    </p>
+  </article>
+
+  <article class="progress-card">
+    <h3>Your Progress</h3>
+
+    <div class="progress-row">
+      <span>Weekly Goal</span>
+      <b>12/15 Completed</b>
+    </div>
+
+    <div class="bar">
+      <i style="width:84%"></i>
+    </div>
+
+    <p>You're doing better than 84% of people in your age group.</p>
+  </article>
+</div>
+{% endblock %}

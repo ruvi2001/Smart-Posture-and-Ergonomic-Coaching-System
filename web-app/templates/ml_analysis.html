@@ -1,0 +1,197 @@
+{% extends "app_base.html" %}
+{% block title %}ML Analysis | Smart Posture{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <h1>ML Analysis</h1>
+  <p>Temporal trends, correlations, anomaly detection, and behavior patterns from collected sensor data.</p>
+</div>
+
+<!-- Temporal KPIs -->
+<section class="kpi-grid">
+  <article>
+    <small>Average Score</small>
+    <b id="mlAvgScore">--</b>
+  </article>
+
+  <article>
+    <small>Trend Status</small>
+    <b id="mlTrendStatus">--</b>
+  </article>
+
+  <article>
+    <small>Best Hour</small>
+    <b id="mlBestHour">--</b>
+  </article>
+
+  <article>
+    <small>Worst Hour</small>
+    <b id="mlWorstHour">--</b>
+  </article>
+</section>
+
+<!-- Temporal charts -->
+<section class="ml-section ml-two-col">
+  <article class="card wide2">
+    <p class="label">Temporal Trend Analysis</p>
+    <canvas id="dailyTrendChart"></canvas>
+  </article>
+
+  <article class="card wide2">
+    <p class="label">Hourly Posture Pattern</p>
+    <canvas id="hourlyTrendChart"></canvas>
+  </article>
+</section>
+
+<!-- Correlation KPIs -->
+<section class="kpi-grid correlation-kpi-grid">
+  <article>
+    <small>Strongest Related Feature</small>
+    <b id="strongestFeature">--</b>
+  </article>
+
+  <article>
+    <small>Correlation Value</small>
+    <b id="strongestCorrelation">--</b>
+  </article>
+
+  <article>
+    <small>Relationship Type</small>
+    <b id="relationshipType">--</b>
+  </article>
+
+  <article>
+    <small>Strength</small>
+    <b id="relationshipStrength">--</b>
+  </article>
+</section>
+
+<!-- Full-width correlation heatmap -->
+<section class="card correlation-full-card">
+  <p class="label">Correlation Heatmap</p>
+  <div id="correlationHeatmap" class="correlation-heatmap"></div>
+</section>
+
+<!-- Correlation table + scatter chart in one row -->
+<section class="correlation-bottom-layout">
+  <article class="card correlation-table-card">
+    <p class="label">Top Correlations With Posture Score</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Correlation</th>
+          <th>Direction</th>
+          <th>Strength</th>
+          <th>Interpretation</th>
+        </tr>
+      </thead>
+      <tbody id="correlationTableBody">
+        <tr>
+          <td colspan="5">Loading...</td>
+        </tr>
+      </tbody>
+    </table>
+  </article>
+
+  <article class="card scatter-card">
+    <p class="label">Distance vs Posture Score</p>
+
+    <div class="scatter-canvas-box">
+      <canvas id="distanceScatterChart"></canvas>
+    </div>
+  </article>
+</section>
+
+<!-- Anomaly KPIs -->
+<section class="kpi-grid anomaly-kpi-grid">
+  <article>
+    <small>Anomaly Model</small>
+    <b id="anomalyModel">--</b>
+  </article>
+
+  <article>
+    <small>Total Records Analysed</small>
+    <b id="anomalyTotal">--</b>
+  </article>
+
+  <article>
+    <small>Anomalies Detected</small>
+    <b id="anomalyCount">--</b>
+  </article>
+
+  <article>
+    <small>Anomaly Rate</small>
+    <b id="anomalyRate">--</b>
+  </article>
+</section>
+
+<!-- Anomaly timeline -->
+<section class="ml-section">
+  <article class="card compact-anomaly-card">
+    <p class="label">Anomaly Detection Timeline</p>
+
+    <div class="anomaly-canvas-box">
+      <canvas id="anomalyTimelineChart"></canvas>
+    </div>
+
+    <p class="chart-note">
+      Blue line shows average posture score. Red points show time periods where Isolation Forest detected unusual sensor behaviour.
+    </p>
+  </article>
+</section>
+
+<!-- Behaviour KPIs -->
+<section class="kpi-grid behavior-kpi-grid">
+  <article>
+    <small>Bad Posture Rate</small>
+    <b id="behaviorBadRate">--</b>
+  </article>
+
+  <article>
+    <small>Worst Hour</small>
+    <b id="behaviorWorstHour">--</b>
+  </article>
+
+  <article>
+    <small>Most Common Type</small>
+    <b id="behaviorCommonType">--</b>
+  </article>
+
+  <article>
+    <small>Weakest Session</small>
+    <b id="behaviorWorstSession">--</b>
+  </article>
+</section>
+
+<!-- Behaviour charts -->
+<section class="ml-section ml-two-col">
+  <article class="card behavior-chart-card">
+    <p class="label">Bad Posture Count by Hour</p>
+
+    <div class="behavior-canvas-box">
+      <canvas id="badPostureHourChart"></canvas>
+    </div>
+  </article>
+
+  <article class="card behavior-chart-card">
+    <p class="label">Bad Posture Type Distribution</p>
+
+    <div class="behavior-canvas-box">
+      <canvas id="badTypeChart"></canvas>
+    </div>
+  </article>
+</section>
+
+<!-- Behaviour insight -->
+<section class="card behavior-insight-card">
+  <p class="label">Behaviour Pattern Insight</p>
+  <p id="behaviorInsight">Loading behaviour insight...</p>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/ml-analysis.js') }}"></script>
+{% endblock %}

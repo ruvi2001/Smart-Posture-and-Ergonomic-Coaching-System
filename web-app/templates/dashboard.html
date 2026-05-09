@@ -1,0 +1,162 @@
+{% extends "app_base.html" %}
+{% block title %}Dashboard | Smart Posture{% endblock %}
+
+{% block content %}
+
+<div class="filter-bar dashboard-filter-bar">
+  <div>
+    <label>Date Range</label>
+    <select id="dateRangeFilter">
+      <option value="all">All</option>
+      <option value="today">Today</option>
+      <option value="7d">Last 7 Days</option>
+      <option value="30d">Last 30 Days</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Posture Class</label>
+    <select id="postureClassFilter">
+      <option value="all">All</option>
+      <option value="good">Good Posture</option>
+      <option value="bad">Bad Posture</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Session</label>
+    <select id="sessionFilter">
+      <option value="all">All</option>
+    </select>
+  </div>
+
+  <button onclick="loadDashboardData()">Apply Filters</button>
+</div>
+
+<div class="alert-banner dashboard-top-alert">
+  <div>⚠️</div>
+  <p>
+    <b id="alertTitle">Posture monitoring active</b><br>
+    <span id="alertMessage">Waiting for live posture readings...</span>
+  </p>
+  <button class="btn ghost" type="button">Dismiss</button>
+  <a class="btn primary" href="{{ url_for('exercises') }}">Take 2-min Break</a>
+</div>
+
+<section class="dash-grid dashboard-main-grid">
+
+  <article class="card status-card">
+    <p class="label">Current Posture Score</p>
+
+    <div class="score-ring score-empty">
+      <span id="avgScore">--</span>
+      <small id="scoreSubLabel">Live Data</small>
+    </div>
+
+    <div class="mini-grid">
+      <div>
+        <b id="totalAlerts">--</b>
+        <small>Total Alerts</small>
+      </div>
+      <div>
+        <b id="goodPosturePct">--</b>
+        <small>Good Posture</small>
+      </div>
+    </div>
+  </article>
+
+  <article class="card wide">
+    <p class="label">
+      Posture Breakdown
+      <button class="mini-ai-btn" type="button" onclick="askChartAI('Explain the posture distribution chart. Is the user mostly sitting well or poorly?')">
+        Ask AI
+      </button>
+    </p>
+
+    <div class="donut-row">
+      <canvas id="breakdownChart"></canvas>
+
+      <ul class="legend-list">
+        <li><span class="dot good"></span>Good <b id="goodCount">--</b></li>
+        <li><span class="dot mod"></span>Neutral <b id="neutralCount">--</b></li>
+        <li><span class="dot poor"></span>Poor <b id="poorCount">--</b></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="metric-tile">
+    <span>🖥️</span>
+    <b id="avgDistance">--</b>
+    <small>Screen Distance</small>
+  </article>
+
+  <article class="metric-tile">
+    <span>🧭</span>
+    <b id="dominantPosture">--</b>
+    <small>Posture Status</small>
+  </article>
+
+  <article class="metric-tile">
+    <span>🪑</span>
+    <b id="avgTilt">--</b>
+    <small>Slouch / Lean Type</small>
+  </article>
+
+  <article class="metric-tile">
+    <span>⚖</span>
+    <b id="balanceStatus">--</b>
+    <small>Weight Balance</small>
+  </article>
+
+</section>
+
+<section class="dashboard-bottom-grid">
+  <article class="card wide">
+    <p class="label">
+      Posture Trend
+      <button class="mini-ai-btn" type="button" onclick="askChartAI('Explain the posture trend. Identify the worst period and suggest one improvement.')">
+        Ask AI
+      </button>
+    </p>
+    <canvas id="trendChart"></canvas>
+  </article>
+
+  <article class="card">
+    <p class="label">
+      Decision Support
+      <button class="mini-ai-btn" type="button" onclick="askChartAI('Based on my dashboard data, what should I improve first and why?')">
+        Ask AI
+      </button>
+    </p>
+
+    <div class="decision-box">
+      <h3 id="riskLevel">--</h3>
+      <p id="riskReason">Loading recommendation...</p>
+    </div>
+
+    <a class="btn soft full" href="{{ url_for('exercises') }}">View Recommended Exercises</a>
+  </article>
+</section>
+
+<section class="card dashboard-heatmap-card">
+  <p class="label">
+    Posture Quality Heat Map
+    <button class="mini-ai-btn" type="button" onclick="askChartAI('Explain the posture heatmap. Which time periods need the most attention?')">
+      Ask AI
+    </button>
+  </p>
+
+  <div id="heatmap" class="heatmap dashboard-wide-heatmap"></div>
+
+  <div class="heat-legend">
+    <span class="box good"></span>Good
+    <span class="box mod"></span>Moderate
+    <span class="box poor"></span>Poor
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

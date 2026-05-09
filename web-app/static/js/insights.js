@@ -1,0 +1,5 @@
+async function loadInsights(){const res=await fetch('/api/charts');const data=await res.json();
+new Chart(document.getElementById('insightTrend'),{type:'line',data:{labels:data.trend.labels,datasets:[{data:data.trend.values,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,.10)',fill:true,tension:.4}]},options:{plugins:{legend:{display:false}},scales:{y:{min:0,max:100}}}});
+const dist=data.distribution;new Chart(document.getElementById('distChart'),{type:'doughnut',data:{labels:['Good','Neutral','Poor'],datasets:[{data:[dist.good||0,dist.neutral||0,(dist.slouching_forward||0)+(dist.leaning_back||0)],backgroundColor:['#16a34a','#e68a00','#ef4444'],borderWidth:0}]},options:{plugins:{legend:{display:false}},cutout:'68%'}});
+const month=document.getElementById('monthlyHeatmap');Object.values(data.monthly).concat(Object.values(data.monthly),Object.values(data.monthly),Object.values(data.monthly)).slice(0,28).forEach(score=>{const d=document.createElement('div');d.className=score>=75?'good':score>=55?'mod':'poor';d.title='Score '+score;month.appendChild(d);});}
+document.addEventListener('DOMContentLoaded',loadInsights);

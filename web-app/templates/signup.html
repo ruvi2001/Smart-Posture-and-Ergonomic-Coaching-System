@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block body %}
+<header class="auth-nav"><a class="brand" href="/">♿ Smart Posture</a><a class="btn ghost" href="{{ url_for('login') }}">Login</a></header>
+<main class="auth-page"><form class="auth-card" method="post"><h1>Create your account</h1><p>Start your journey to better posture today.</p><label>Full Name<input name="full_name" placeholder="Enter your full name" required></label><label>Email Address<input name="email" type="email" placeholder="name@example.com" required></label><label>Password<input name="password" type="password" placeholder="Create password" required></label><label>Confirm Password<input name="confirm_password" type="password" placeholder="Confirm password" required></label><button class="btn primary full">Create Account</button><div class="divider">OR CONTINUE WITH</div><button type="button" class="btn ghost full">Google</button></form></main>
+{% endblock %}

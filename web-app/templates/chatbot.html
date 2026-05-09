@@ -1,0 +1,6 @@
+{% extends "app_base.html" %}
+{% block title %}Chatbot | Smart Posture{% endblock %}
+{% block content %}
+<section class="full-chat-page"><h1>PostureAI Chatbot</h1><p>Standalone chatbot page. The same chatbot is also available as the floating icon on every dashboard page.</p><div class="big-chat"><div id="chat-page-messages" class="float-messages"><div class="float-bot">Ask me anything about your posture data.</div></div><form id="chat-page-form" class="float-chat-form"><input id="chat-page-input" placeholder="Type your question..."><button>Send</button></form></div></section>
+{% endblock %}
+{% block extra_js %}<script src="{{ url_for('static', filename='js/chat-page.js') }}"></script>{% endblock %}

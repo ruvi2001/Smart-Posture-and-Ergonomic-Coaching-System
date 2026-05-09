@@ -1,0 +1,20 @@
+<button class="chat-fab" onclick="openFloatingChatbot()">🤖</button>
+
+<div id="floatingChatPanel" class="chat-panel">
+  <div class="chat-panel-head">
+    <div>
+      <strong>PostureAI</strong>
+      <small>Ergonomic Coach</small>
+    </div>
+    <button class="icon-btn" onclick="closeFloatingChatbot()">×</button>
+  </div>
+
+  <div id="floatingMessages" class="float-messages">
+    <div class="float-bot">Hi! Ask me about your posture dashboard.</div>
+  </div>
+
+  <form class="float-chat-form" onsubmit="sendFloatingMessage(); return false;">
+    <input id="floatingChatInput" type="text" placeholder="Ask PostureAI..." autocomplete="off">
+    <button type="submit">Send</button>
+  </form>
+</div>

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Smart Posture{% endblock %}
+{% block body %}
+<header class="public-nav">
+  <a class="brand" href="/"><span class="brand-icon">♿</span>Smart Posture</a>
+  <nav><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#support">Support</a></nav>
+  <div><a class="btn ghost" href="{{ url_for('login') }}">Login</a><a class="btn primary" href="{{ url_for('signup') }}">Sign Up</a></div>
+</header>
+<section class="hero">
+  <div class="hero-copy">
+    <span class="pill">● Now powered by local AI</span>
+    <h1>Better Posture,<br><span>Better Performance.</span></h1>
+    <p>The intelligent analytics dashboard to help you stay healthy, focused, and pain-free at work. Monitor ergonomics in real time and prevent long-term strain.</p>
+    <div class="hero-actions"><a class="btn primary big" href="{{ url_for('signup') }}">Get Started Free</a><a class="btn white big" href="{{ url_for('dashboard') }}">Watch Demo</a></div>
+    <p class="trusted">👩‍💼👨‍💻👩‍🔬 Trusted by smart posture project users</p>
+  </div>
+  <div class="hero-card"><div class="mock-window"><span></span><span></span><span></span></div><div class="mock-dashboard"><h4>Dashboard preview</h4><p>Posture score <b>85%</b></p><p>Screen distance <b>55cm</b></p><p>Alerts today <b>2</b></p></div></div>
+</section>
+<section id="features" class="features">
+  <h2>Designed for your well-being</h2><p>Real-time monitoring, personalized insights, and exercise guidance.</p>
+  <div class="feature-grid"><article>▣<h3>Real-time Monitoring</h3><p>Track sitting habits and detect slouching or neck tilt.</p></article><article>⌁<h3>Personalized Insights</h3><p>Turn posture sensor data into simple recommendations.</p></article><article>👥<h3>Role-based Analytics</h3><p>Useful reports for users, teams, and health monitoring.</p></article></div>
+</section>
+{% endblock %}

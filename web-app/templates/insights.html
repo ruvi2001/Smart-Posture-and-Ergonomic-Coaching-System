@@ -1,0 +1,99 @@
+{% extends "app_base.html" %}
+
+{% block title %}Insights | Smart Posture{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <h1>Posture Insights & Reports</h1>
+  <p>Review your long-term posture trends and health analytics.</p>
+</div>
+
+<section class="kpi-grid">
+  <article>
+    <small>Avg. Posture Score</small>
+    <b>{{ metrics.avg_posture_score }}%</b>
+    <span>↑ 5%</span>
+  </article>
+
+  <article>
+    <small>Total Sitting Hours</small>
+    <b>{{ metrics.sitting_hours }}h</b>
+    <span>↓ 2.2h</span>
+  </article>
+
+  <article>
+    <small>Posture Alerts</small>
+    <b>{{ metrics.total_alerts }}</b>
+    <span>↓ 4</span>
+  </article>
+
+  <article>
+    <small>Exercise Compliance</small>
+    <b>{{ metrics.exercise_compliance }}%</b>
+    <span>↑ 8%</span>
+  </article>
+</section>
+
+<section class="insight-grid">
+  <article class="card wide2">
+    <h3>Weekly Posture Trend</h3>
+    <canvas id="insightTrend"></canvas>
+  </article>
+
+  <article class="card">
+    <h3>Weekly Distribution</h3>
+    <canvas id="distChart"></canvas>
+
+    <ul class="legend-list compact">
+      <li>
+        <span class="dot good"></span>
+        Good
+        <b>{{ metrics.good_posture_pct }}%</b>
+      </li>
+
+      <li>
+        <span class="dot mod"></span>
+        Neutral
+        <b>{{ metrics.neutral_pct }}%</b>
+      </li>
+
+      <li>
+        <span class="dot poor"></span>
+        Poor
+        <b>{{ metrics.poor_pct }}%</b>
+      </li>
+    </ul>
+  </article>
+
+  <article class="card wide2">
+    <h3>Monthly Posture Heatmap</h3>
+    <div id="monthlyHeatmap" class="monthly-heat"></div>
+  </article>
+
+  <article class="smart-card">
+    <h3>✦ Smart Insights</h3>
+
+    <p>
+      Your posture improved compared with the weakest periods. Keep morning sessions consistent.
+    </p>
+
+    <ul>
+      <li>Peak alert times are around {{ metrics.worst_hour }}:00.</li>
+      <li>Screen distance averages {{ metrics.avg_head_distance }} cm.</li>
+      <li>Best day: {{ metrics.best_day }}.</li>
+    </ul>
+
+    <a class="btn white full" href="{{ url_for('download_report') }}">
+      Download Report
+    </a>
+
+    <a class="btn outline-white full" href="{{ url_for('exercises') }}">
+      View Exercises
+    </a>
+  </article>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/insights.js') }}"></script>
+{% endblock %}

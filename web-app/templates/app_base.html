@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body %}
+<header class="topbar">
+  <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-icon">♿</span><span>Smart Posture Dashboard</span></a>
+  <nav class="topnav">
+    <a class="nav-link {{ 'active' if active_page=='dashboard' else '' }}" href="{{ url_for('dashboard') }}">▦ Dashboard</a>
+    <a class="nav-link {{ 'active' if active_page=='insights' else '' }}" href="{{ url_for('insights') }}">⌁ Insights</a>
+    <a class="nav-link {{ 'active' if active_page=='exercises' else '' }}" href="{{ url_for('exercises') }}">⌁ Exercises</a>
+    <a class="nav-link {{ 'active' if active_page=='settings' else '' }}" href="{{ url_for('settings') }}">⚙ Settings</a>
+    <a class="nav-link {{ 'active' if active_page=='ml-analysis' else '' }}" href="{{ url_for('ml_analysis') }}">◇ ML Analysis</a>
+  </nav>
+  <div class="user-chip">
+    <span>🔔</span>
+    <div><strong>{{ current_user.name }}</strong><small>{{ current_user.role }}</small></div>
+    <span class="avatar-small">👤</span>
+  </div>
+</header>
+<main class="page-wrap">
+  {% block content %}{% endblock %}
+</main>
+{% include "partials/floating_chat.html" %}
+{% endblock %}
